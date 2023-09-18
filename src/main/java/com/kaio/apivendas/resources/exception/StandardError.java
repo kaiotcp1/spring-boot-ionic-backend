@@ -3,6 +3,10 @@ package com.kaio.apivendas.resources.exception;
 import java.io.Serial;
 import java.io.Serializable;
 
+/*
+Classe base para retornar erros de exceção no Handler Global.
+ */
+
 public class StandardError implements Serializable {
 
     @Serial
