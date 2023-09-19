@@ -1,13 +1,8 @@
 package com.kaio.apivendas;
 
-import com.kaio.apivendas.domain.Categoria;
-import com.kaio.apivendas.domain.Cidade;
-import com.kaio.apivendas.domain.Estado;
-import com.kaio.apivendas.domain.Produto;
-import com.kaio.apivendas.repositories.CategoriaRepository;
-import com.kaio.apivendas.repositories.CidadeRepository;
-import com.kaio.apivendas.repositories.EstadoRepository;
-import com.kaio.apivendas.repositories.ProdutoRepository;
+import com.kaio.apivendas.domain.*;
+import com.kaio.apivendas.domain.enums.TipoCliente;
+import com.kaio.apivendas.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -29,6 +24,12 @@ public class ApivendasApplication  implements CommandLineRunner {
 
     @Autowired
     private CidadeRepository cidadeRepository;
+
+    @Autowired
+    private ClienteRepository clienteRepository;
+
+    @Autowired
+    private EnderecoRepository enderecoRepository;
 
 
 
@@ -73,5 +74,15 @@ public class ApivendasApplication  implements CommandLineRunner {
 
         estadoRepository.saveAll(Arrays.asList(est1, est2));
         cidadeRepository.saveAll(Arrays.asList(c1,c2,c3));
+
+        Cliente cli1 = new Cliente(null, "Maria Silva", "Maria@gmail.com", "363789182377", TipoCliente.PESSOAFISICA);
+        cli1.getTelefones().addAll(Arrays.asList("999189334", "999263946"));
+
+        Endereco e1 = new Endereco(null, "Rua flores", "300", "Apto 303", "Jardim", "38220814", cli1, c1);
+        Endereco e2 = new Endereco(null, "Avenida Matos", "105", "Sala 800", "Centro", "3877012",cli1, c2 );
+        cli1.getEnderecos().addAll(Arrays.asList(e1, e2));
+
+        clienteRepository.saveAll(Arrays.asList(cli1));
+        enderecoRepository.saveAll(Arrays.asList(e1, e2));
     }
 }
