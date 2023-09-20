@@ -1,5 +1,6 @@
 package com.kaio.apivendas.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 import java.io.Serial;
@@ -21,6 +22,14 @@ public class Endereco implements Serializable {
     private String bairro;
     private String cep;
 
+    /*
+    A anotação @JsonBackReference é usada na classe Endereco para
+     indicar que a relação entre Endereco e Cliente é "de volta"
+     para Cliente. Isso significa que, durante a serialização JSON,
+     o Jackson não tentará serializar o Cliente associado a cada
+     Endereco novamente, evitando o loop infinito.
+     */
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "cliente_id")
     private Cliente cliente;

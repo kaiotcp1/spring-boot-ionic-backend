@@ -1,5 +1,6 @@
 package com.kaio.apivendas.domain;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.kaio.apivendas.domain.enums.TipoCliente;
 import jakarta.persistence.*;
 
@@ -28,6 +29,14 @@ public class Cliente implements Serializable {
 
     private Integer tipo;
 
+    /*
+    A anotação @JsonManagedReference é usada na classe Cliente para indicar que
+     a relação entre Cliente e Endereco é gerenciada pelo Cliente.
+     Isso significa que, durante a serialização JSON, o Jackson  serializará
+     a lista de endereços (enderecos) do Cliente, mas ignorará qualquer referência
+     de volta aos Clientes dos Enderecos.
+     */
+    @JsonManagedReference
     @OneToMany(mappedBy = "cliente")
     private List<Endereco> enderecos = new ArrayList<>();
 
