@@ -16,7 +16,7 @@ public class Estado implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private String none;
+    private String nome;
 
     @OneToMany(mappedBy = "estado")
     private List<Cidade> cidades = new ArrayList<>();
@@ -24,9 +24,9 @@ public class Estado implements Serializable {
     public Estado() {
     }
 
-    public Estado(Integer id, String none) {
+    public Estado(Integer id, String nome) {
         this.id = id;
-        this.none = none;
+        this.nome = nome;
     }
 
     public Integer getId() {
@@ -37,12 +37,12 @@ public class Estado implements Serializable {
         this.id = id;
     }
 
-    public String getNone() {
-        return none;
+    public String getNome() {
+        return nome;
     }
 
-    public void setNone(String none) {
-        this.none = none;
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
     public List<Cidade> getCidades() {
