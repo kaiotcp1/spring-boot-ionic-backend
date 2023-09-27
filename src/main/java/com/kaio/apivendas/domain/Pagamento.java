@@ -8,13 +8,14 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
-public class Pagamento implements Serializable {
+@Inheritance(strategy = InheritanceType.JOINED)
+public abstract class Pagamento implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
     @Id
     private Integer id;
-    private EstadoPagamento estado;
+    private Integer estado;
 
     @OneToOne
     @JoinColumn(name = "pedido_id")
@@ -26,7 +27,7 @@ public class Pagamento implements Serializable {
 
     public Pagamento(Integer id, EstadoPagamento estado, Pedido pedido) {
         this.id = id;
-        this.estado = estado;
+        this.estado = estado.getCod();
         this.pedido = pedido;
     }
 
@@ -39,11 +40,11 @@ public class Pagamento implements Serializable {
     }
 
     public EstadoPagamento getEstado() {
-        return estado;
+        return EstadoPagamento.toEnum(estado);
     }
 
     public void setEstado(EstadoPagamento estado) {
-        this.estado = estado;
+        this.estado = estado.getCod();
     }
 
     public Pedido getPedido() {
