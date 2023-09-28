@@ -1,5 +1,6 @@
 package com.kaio.apivendas.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.kaio.apivendas.domain.enums.EstadoPagamento;
 import jakarta.persistence.*;
 
@@ -17,6 +18,7 @@ public abstract class Pagamento implements Serializable {
     private Integer id;
     private Integer estado;
 
+    @JsonBackReference
     @OneToOne
     @JoinColumn(name = "pedido_id")
     @MapsId

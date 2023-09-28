@@ -1,5 +1,6 @@
 package com.kaio.apivendas.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.kaio.apivendas.domain.enums.EstadoPagamento;
 import jakarta.persistence.Entity;
 
@@ -11,7 +12,9 @@ public class PagamentoComBoleto extends Pagamento{
 
     @Serial
     private static final long serialVersionUID = 1L;
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private Date dataVencimento;
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private Date dataPagamento;
 
     public PagamentoComBoleto() {
