@@ -2,8 +2,10 @@ package com.kaio.apivendas.services;
 
 import com.kaio.apivendas.domain.Categoria;
 import com.kaio.apivendas.repositories.CategoriaRepository;
+import com.kaio.apivendas.services.exceptions.DataIntegrityException;
 import com.kaio.apivendas.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -27,4 +29,14 @@ public class CategoriaService {
         find(obj.getId());
         return repository.save(obj);
     }
+
+    public void delete(Integer id) {
+        find(id);
+        try {
+            repository.deleteById(id);
+
+        }catch (DataIntegrityViolationException e) {
+            throw new DataIntegrityException("Não é possível excluir uma categoria que possui produtos");
+        }
+    };
 }
