@@ -1,7 +1,6 @@
 package com.kaio.apivendas.domain;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.kaio.apivendas.domain.enums.TipoCliente;
 import jakarta.persistence.*;
 
@@ -37,14 +36,13 @@ public class Cliente implements Serializable {
      a lista de endereços (enderecos) do Cliente, mas ignorará qualquer referência
      de volta aos Clientes dos Enderecos.
      */
-    @JsonManagedReference
     @OneToMany(mappedBy = "cliente")
     private List<Endereco> enderecos = new ArrayList<>();
 
     @ElementCollection
     @CollectionTable(name = "TELEFONE")
     private Set<String> telefones = new HashSet<>();
-    @JsonBackReference
+    @JsonIgnore
     @OneToMany(mappedBy = "cliente")
     private List<Pedido> pedidos = new ArrayList<>();
     public Cliente() {

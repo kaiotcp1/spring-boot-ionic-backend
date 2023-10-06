@@ -1,6 +1,6 @@
 package com.kaio.apivendas.domain;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.io.Serial;
@@ -29,7 +29,7 @@ public class Endereco implements Serializable {
      o Jackson não tentará serializar o Cliente associado a cada
      Endereco novamente, evitando o loop infinito.
      */
-    @JsonBackReference
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "cliente_id")
     private Cliente cliente;
