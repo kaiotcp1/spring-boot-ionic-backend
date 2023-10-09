@@ -1,6 +1,7 @@
 package com.kaio.apivendas.services;
 
 import com.kaio.apivendas.domain.Categoria;
+import com.kaio.apivendas.dto.CategoriaDTO;
 import com.kaio.apivendas.repositories.CategoriaRepository;
 import com.kaio.apivendas.services.exceptions.DataIntegrityException;
 import com.kaio.apivendas.services.exceptions.ObjectNotFoundException;
@@ -58,6 +59,10 @@ public class CategoriaService {
 
         PageRequest pageRequest = PageRequest.of(page, linesPerPage, sortDirection, orderBy);
         return repository.findAll(pageRequest);
+    }
+
+    public Categoria fromDTO(CategoriaDTO objDTO) {
+        return new Categoria(objDTO.getId(), objDTO.getNome());
     }
 
 }
