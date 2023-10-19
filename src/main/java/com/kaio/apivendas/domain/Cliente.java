@@ -36,7 +36,7 @@ public class Cliente implements Serializable {
      a lista de endereços (enderecos) do Cliente, mas ignorará qualquer referência
      de volta aos Clientes dos Enderecos.
      */
-    @OneToMany(mappedBy = "cliente")
+    @OneToMany(mappedBy = "cliente", cascade= CascadeType.ALL)
     private List<Endereco> enderecos = new ArrayList<>();
 
     @ElementCollection
