@@ -1,6 +1,5 @@
 package com.kaio.apivendas.dto;
 
-import com.kaio.apivendas.services.validation.ClienteInsert;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.Email;
@@ -8,7 +7,6 @@ import javax.validation.constraints.NotEmpty;
 import java.io.Serial;
 import java.io.Serializable;
 
-@ClienteInsert
 public class ClienteNewDTO implements Serializable {
 
     @Serial

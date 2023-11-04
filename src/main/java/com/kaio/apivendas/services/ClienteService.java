@@ -10,6 +10,7 @@ import com.kaio.apivendas.repositories.ClienteRepository;
 import com.kaio.apivendas.repositories.EnderecoRepository;
 import com.kaio.apivendas.services.exceptions.DataIntegrityException;
 import com.kaio.apivendas.services.exceptions.ObjectNotFoundException;
+import com.kaio.apivendas.services.exceptions.UniqueConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
@@ -38,15 +39,31 @@ public class ClienteService {
     @Transactional
     public Cliente insert(Cliente obj) {
         obj.setId(null);
-        obj = repository.save(obj);
-        enderecoRepository.saveAll(obj.getEnderecos());
-        return obj;
+        Cliente email = repository.findByEmail(obj.getEmail());
+        if(email != null) {
+            throw new UniqueConstraintViolationException("Email em uso.");
+        }
+        try {
+            obj = repository.save(obj);
+            enderecoRepository.saveAll(obj.getEnderecos());
+            return obj;
+        } catch (DataIntegrityViolationException e) {
+            throw new DataIntegrityException("Erro ao inserir o cliente no banco de dados.");
+        }
+
     }
 
     public Cliente update(Cliente obj) {
-        Cliente newObj = find(obj.getId());
-        updateData(newObj, obj);
-        return repository.save(newObj);
+        Cliente cliente = find(obj.getId());
+        if(cliente == null || !cliente.getEmail().equals(obj.getEmail())) {
+            throw new DataIntegrityException("Os emails são diferentes. Não é permitido atualizar o email de outro usuário.");
+        }
+        try {
+            updateData(cliente, obj);
+        } catch (RuntimeException e) {
+            System.out.println(e);
+        }
+        return repository.save(cliente);
     }
 
     public void delete(Integer id) {
