@@ -1,11 +1,13 @@
 package com.kaio.apivendas.domain;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.kaio.apivendas.domain.enums.EstadoPagamento;
 import jakarta.persistence.Entity;
 
 import java.io.Serial;
 
 @Entity
+@JsonTypeName("pagamentoComCartao")
 public class PagamentoComCartao extends Pagamento{
 
     @Serial

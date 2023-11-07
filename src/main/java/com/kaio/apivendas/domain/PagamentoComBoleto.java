@@ -1,6 +1,7 @@
 package com.kaio.apivendas.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.kaio.apivendas.domain.enums.EstadoPagamento;
 import jakarta.persistence.Entity;
 
@@ -8,6 +9,7 @@ import java.io.Serial;
 import java.util.Date;
 
 @Entity
+@JsonTypeName("pagamentoComBoleto")
 public class PagamentoComBoleto extends Pagamento{
 
     @Serial
