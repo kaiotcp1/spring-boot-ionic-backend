@@ -5,6 +5,7 @@ import com.kaio.apivendas.domain.enums.EstadoPagamento;
 import com.kaio.apivendas.domain.enums.TipoCliente;
 import com.kaio.apivendas.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
@@ -13,6 +14,9 @@ import java.util.Arrays;
 
 @Service
 public class DBService {
+
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
     private CategoriaRepository categoriaRepository;
@@ -84,7 +88,7 @@ public class DBService {
         estadoRepository.saveAll(Arrays.asList(est1, est2));
         cidadeRepository.saveAll(Arrays.asList(c1,c2,c3));
 
-        Cliente cli1 = new Cliente(null, "Maria Silva", "Maria@gmail.com", "363789182377", TipoCliente.PESSOAFISICA);
+        Cliente cli1 = new Cliente(null, "Maria Silva", "Maria@gmail.com", "363789182377", TipoCliente.PESSOAFISICA, bCryptPasswordEncoder.encode("12345678"));
         cli1.getTelefones().addAll(Arrays.asList("999189334", "999263946"));
 
         Endereco e1 = new Endereco(null, "Rua flores", "300", "Apto 303", "Jardim", "38220814", cli1, c1);
