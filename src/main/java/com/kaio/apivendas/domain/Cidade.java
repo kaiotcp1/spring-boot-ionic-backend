@@ -1,7 +1,7 @@
 package com.kaio.apivendas.domain;
 
-import jakarta.persistence.*;
 
+import javax.persistence.*;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.Objects;

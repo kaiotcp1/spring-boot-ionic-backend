@@ -2,8 +2,8 @@ package com.kaio.apivendas.domain;
 
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.kaio.apivendas.domain.enums.EstadoPagamento;
-import jakarta.persistence.Entity;
 
+import javax.persistence.Entity;
 import java.io.Serial;
 
 @Entity

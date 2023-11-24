@@ -1,9 +1,9 @@
 package com.kaio.apivendas.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.EmbeddedId;
-import jakarta.persistence.Entity;
 
+import javax.persistence.EmbeddedId;
+import javax.persistence.Entity;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.Objects;

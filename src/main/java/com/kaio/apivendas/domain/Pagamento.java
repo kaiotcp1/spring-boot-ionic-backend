@@ -3,8 +3,8 @@ package com.kaio.apivendas.domain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.kaio.apivendas.domain.enums.EstadoPagamento;
-import jakarta.persistence.*;
 
+import javax.persistence.*;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.Objects;

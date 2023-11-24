@@ -5,12 +5,9 @@ import com.kaio.apivendas.domain.enums.EstadoPagamento;
 import com.kaio.apivendas.repositories.ItemPedidoRepository;
 import com.kaio.apivendas.repositories.PagamentoRepository;
 import com.kaio.apivendas.repositories.PedidoRepository;
-import com.kaio.apivendas.repositories.ProdutoRepository;
 import com.kaio.apivendas.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.Date;
 import java.util.List;

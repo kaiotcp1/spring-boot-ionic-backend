@@ -1,8 +1,6 @@
 package com.kaio.apivendas.resources;
 
-import com.kaio.apivendas.domain.Categoria;
 import com.kaio.apivendas.domain.Pedido;
-import com.kaio.apivendas.dto.CategoriaDTO;
 import com.kaio.apivendas.services.PedidoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

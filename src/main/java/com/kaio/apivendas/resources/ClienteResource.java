@@ -1,8 +1,6 @@
 package com.kaio.apivendas.resources;
 
-import com.kaio.apivendas.domain.Categoria;
 import com.kaio.apivendas.domain.Cliente;
-import com.kaio.apivendas.dto.CategoriaDTO;
 import com.kaio.apivendas.dto.ClienteDTO;
 import com.kaio.apivendas.dto.ClienteNewDTO;
 import com.kaio.apivendas.services.ClienteService;

@@ -2,8 +2,8 @@ package com.kaio.apivendas.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.kaio.apivendas.domain.enums.TipoCliente;
-import jakarta.persistence.*;
 
+import javax.persistence.*;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.*;
