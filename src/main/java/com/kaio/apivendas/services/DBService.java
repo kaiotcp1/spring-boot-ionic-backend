@@ -2,6 +2,7 @@ package com.kaio.apivendas.services;
 
 import com.kaio.apivendas.domain.*;
 import com.kaio.apivendas.domain.enums.EstadoPagamento;
+import com.kaio.apivendas.domain.enums.Perfil;
 import com.kaio.apivendas.domain.enums.TipoCliente;
 import com.kaio.apivendas.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -91,12 +92,19 @@ public class DBService {
         Cliente cli1 = new Cliente(null, "Maria Silva", "Maria@gmail.com", "363789182377", TipoCliente.PESSOAFISICA, bCryptPasswordEncoder.encode("12345678"));
         cli1.getTelefones().addAll(Arrays.asList("999189334", "999263946"));
 
+        Cliente cli2 = new Cliente(null, "Kaio", "kaio@gmail.com", "12312312350", TipoCliente.PESSOAFISICA, bCryptPasswordEncoder.encode("12345678"));
+        cli2.getTelefones().addAll(Arrays.asList("999189999", "111123234"));
+        cli2.addPerfil(Perfil.ADMIN);
+
         Endereco e1 = new Endereco(null, "Rua flores", "300", "Apto 303", "Jardim", "38220814", cli1, c1);
         Endereco e2 = new Endereco(null, "Avenida Matos", "105", "Sala 800", "Centro", "3877012",cli1, c2 );
-        cli1.getEnderecos().addAll(Arrays.asList(e1, e2));
+        Endereco e3 = new Endereco(null, "Rua Xingu", "122", "Centro", "Centro", "38234012",cli2, c2 );
 
-        clienteRepository.saveAll(Arrays.asList(cli1));
-        enderecoRepository.saveAll(Arrays.asList(e1, e2));
+        cli1.getEnderecos().addAll(Arrays.asList(e1, e2));
+        cli2.getEnderecos().addAll(Arrays.asList(e3));
+
+        clienteRepository.saveAll(Arrays.asList(cli1, cli2));
+        enderecoRepository.saveAll(Arrays.asList(e1, e2, e3));
 
         //
 
