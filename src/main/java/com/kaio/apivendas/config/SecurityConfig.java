@@ -1,7 +1,9 @@
 package com.kaio.apivendas.config;
 
 import com.kaio.apivendas.security.JWTAuthenticationFilter;
+import com.kaio.apivendas.security.JWTAuthorizationFilter;
 import com.kaio.apivendas.security.JWTUtil;
+import com.kaio.apivendas.services.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -58,7 +60,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         .antMatchers(PUBLIC_MATCHERS).permitAll()
                         .anyRequest().authenticated();
                 http.addFilter(new JWTAuthenticationFilter(authenticationManager(), jwtUtil));
-                http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        http.addFilter(new JWTAuthorizationFilter(authenticationManager(), jwtUtil, (UserDetailsServiceImpl) userDetailsService));
+        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }
 
     //permitindo o acesso de multiplas fontes com as configurações basicas.
