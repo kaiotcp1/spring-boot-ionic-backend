@@ -27,14 +27,18 @@ public class CategoriaService {
     }
 
     public Categoria insert(Categoria obj) {
-        Categoria newObj = find(obj.getId());
-        updateData(newObj, obj);
-        return repository.save(newObj);
+        obj.setId(null);
+        try{
+            return repository.save(obj);
+        } catch(DataIntegrityViolationException e) {
+            throw new DataIntegrityException("Erro ao inserir uma nova categoria no banco de dados.");
+        }
     }
 
     public Categoria update(Categoria obj) {
-        find(obj.getId());
-        return repository.save(obj);
+        Categoria newObj = find(obj.getId());
+        updateData(newObj, obj);
+        return repository.save(newObj);
     }
 
     public void delete(Integer id) {
