@@ -3,11 +3,14 @@ package com.kaio.apivendas.services;
 import com.kaio.apivendas.domain.Cidade;
 import com.kaio.apivendas.domain.Cliente;
 import com.kaio.apivendas.domain.Endereco;
+import com.kaio.apivendas.domain.enums.Perfil;
 import com.kaio.apivendas.domain.enums.TipoCliente;
 import com.kaio.apivendas.dto.ClienteDTO;
 import com.kaio.apivendas.dto.ClienteNewDTO;
 import com.kaio.apivendas.repositories.ClienteRepository;
 import com.kaio.apivendas.repositories.EnderecoRepository;
+import com.kaio.apivendas.security.UserSS;
+import com.kaio.apivendas.services.exceptions.AuthorizationException;
 import com.kaio.apivendas.services.exceptions.DataIntegrityException;
 import com.kaio.apivendas.services.exceptions.ObjectNotFoundException;
 import com.kaio.apivendas.services.exceptions.UniqueConstraintViolationException;
@@ -36,6 +39,10 @@ public class ClienteService {
     private EnderecoRepository enderecoRepository;
 
     public Cliente find(Integer id) {
+        UserSS user = UserService.authenticated();
+        if(user == null || !user.hasRole(Perfil.ADMIN) && !id.equals(user.getId())) {
+            throw new AuthorizationException("Acesso negado");
+        }
         Optional<Cliente> obj = repository.findById(id);
         return obj.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado! id: " + id + ", Tipo: " + Cliente.class.getName()));
     }

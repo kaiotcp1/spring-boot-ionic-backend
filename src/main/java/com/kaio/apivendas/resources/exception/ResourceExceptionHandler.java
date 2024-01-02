@@ -1,5 +1,6 @@
 package com.kaio.apivendas.resources.exception;
 
+import com.kaio.apivendas.services.exceptions.AuthorizationException;
 import com.kaio.apivendas.services.exceptions.DataIntegrityException;
 import com.kaio.apivendas.services.exceptions.ObjectNotFoundException;
 import com.kaio.apivendas.services.exceptions.UniqueConstraintViolationException;
@@ -56,5 +57,12 @@ public class ResourceExceptionHandler {
     public ResponseEntity<StandardError> uniqueConstraintViolation(UniqueConstraintViolationException e, HttpServletRequest request) {
         StandardError err = new StandardError(System.currentTimeMillis(), HttpStatus.CONFLICT.value(), "Violação de chave única", e.getMessage(), request.getRequestURI());
         return ResponseEntity.status(HttpStatus.CONFLICT).body(err);
+    }
+
+    @ExceptionHandler(AuthorizationException.class)
+    public ResponseEntity<StandardError> authorization(AuthorizationException e, HttpServletRequest request) {
+
+        StandardError err = new StandardError(System.currentTimeMillis(), HttpStatus.FORBIDDEN.value(), "Acesso negado", e.getMessage(), request.getRequestURI());
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(err);
     }
 }
