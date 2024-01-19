@@ -1,6 +1,5 @@
 package com.kaio.apivendas.security;
 
-import com.kaio.apivendas.services.UserDetailsServiceImpl;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -8,9 +7,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
-import javax.servlet.Filter;
 import javax.servlet.FilterChain;
-import javax.servlet.Servlet;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -18,10 +15,10 @@ import java.io.IOException;
 
 public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 
-    private final UserDetailsServiceImpl userDetailService;
+    private final UserDetailsService userDetailService;
     private JWTUtil jwtUtil;
 
-    public JWTAuthorizationFilter(AuthenticationManager authenticationManager, JWTUtil jwtUtil, UserDetailsServiceImpl userDetailsService) {
+    public JWTAuthorizationFilter(AuthenticationManager authenticationManager, JWTUtil jwtUtil, UserDetailsService userDetailsService) {
         super(authenticationManager);
         this.jwtUtil = jwtUtil;
         this.userDetailService = userDetailsService;
@@ -37,9 +34,9 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
             if(auth != null) {
                 SecurityContextHolder.getContext().setAuthentication(auth);
             }
-            chain.doFilter(request, response);
-        }
 
+        }
+        chain.doFilter(request, response);
     }
 
     private UsernamePasswordAuthenticationToken getAuthentication(HttpServletRequest request, String token) {

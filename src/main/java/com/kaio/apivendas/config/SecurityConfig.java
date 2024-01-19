@@ -1,9 +1,9 @@
 package com.kaio.apivendas.config;
+import java.util.Arrays;
 
 import com.kaio.apivendas.security.JWTAuthenticationFilter;
 import com.kaio.apivendas.security.JWTAuthorizationFilter;
 import com.kaio.apivendas.security.JWTUtil;
-import com.kaio.apivendas.services.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,8 +21,6 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import java.util.Arrays;
-
 
 @Configuration
 @EnableWebSecurity
@@ -30,47 +28,46 @@ import java.util.Arrays;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    private Environment env;
+    private UserDetailsService userDetailsService;
 
     @Autowired
-    private UserDetailsService userDetailsService;
+    private Environment env;
 
     @Autowired
     private JWTUtil jwtUtil;
 
     private static final String[] PUBLIC_MATCHERS = {
-            "/h2-console/**",
+            "/h2-console/**"
     };
 
     private static final String[] PUBLIC_MATCHERS_GET = {
             "/produtos/**",
-            "/categorias/**"
+            "/categorias/**",
+            "/estados/**"
     };
 
     private static final String[] PUBLIC_MATCHERS_POST = {
-            "/clientes/**"
+            "/clientes/**",
+
     };
 
     @Override
-    protected  void configure(HttpSecurity http) throws Exception {
+    protected void configure(HttpSecurity http) throws Exception {
 
-        //Liberar H2 database...
-        if(Arrays.asList(env.getActiveProfiles()).contains("test")) {
+        if (Arrays.asList(env.getActiveProfiles()).contains("test")) {
             http.headers().frameOptions().disable();
         }
 
         http.cors().and().csrf().disable();
-                http.authorizeRequests()
-                        .antMatchers(HttpMethod.POST, PUBLIC_MATCHERS_POST).permitAll() // Permite apenas Operações GET
-                        .antMatchers(HttpMethod.GET, PUBLIC_MATCHERS_GET).permitAll() // Permite apenas Operações GET
-                        .antMatchers(PUBLIC_MATCHERS).permitAll()
-                        .anyRequest().authenticated();
-                http.addFilter(new JWTAuthenticationFilter(authenticationManager(), jwtUtil));
-        http.addFilter(new JWTAuthorizationFilter(authenticationManager(), jwtUtil, (UserDetailsServiceImpl) userDetailsService));
+        http.authorizeRequests()
+                .antMatchers(HttpMethod.POST, PUBLIC_MATCHERS_POST).permitAll()
+                .antMatchers(HttpMethod.GET, PUBLIC_MATCHERS_GET).permitAll()
+                .antMatchers(PUBLIC_MATCHERS).permitAll()
+                .anyRequest().authenticated();
+        http.addFilter(new JWTAuthenticationFilter(authenticationManager(), jwtUtil));
+        http.addFilter(new JWTAuthorizationFilter(authenticationManager(), jwtUtil, userDetailsService));
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }
-
-    //permitindo o acesso de multiplas fontes com as configurações basicas.
 
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -79,10 +76,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration().applyPermitDefaultValues();
+        configuration.setAllowedMethods(Arrays.asList("POST", "GET", "PUT", "DELETE", "OPTIONS"));
         final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());
+        source.registerCorsConfiguration("/**", configuration);
         return source;
-
     }
 
     @Bean
